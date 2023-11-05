@@ -1,39 +1,43 @@
+# Define an undirected graph as an adjacency list
 graph = {
-  '5' : ['3','7'],
-  '3' : ['2', '4'],
-  '7' : ['8'],
-  '2' : [],
-  '4' : ['8'],
-  '8' : []
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
 }
-visited = [] # List for visited nodes.
-queue = []     #Initialize a queue
-
-def bfs(visited, graph, node): #function for BFS
-  visited.append(node)
-  queue.append(node)
-
-  while queue:          # Creating loop to visit each node
-    m = queue.pop(0) 
-    print (m, end = " ") 
-
-    for neighbour in graph[m]:
-      if neighbour not in visited:
-        visited.append(neighbour)
-        queue.append(neighbour)
-
-# Driver Code
-print("Following is the Breadth-First Search")
-bfs(visited, graph, '5')    # function calling
-visited = set() # Set to keep track of visited nodes of graph.
-
-def dfs(visited, graph, node):  #function for dfs 
+#-----------------------DFS---------------------------
+def dfs(graph, node, visited):
     if node not in visited:
-        print (node,end=" ")
+        print(node, end=' ')
         visited.add(node)
-        for neighbour in graph[node]:
-            dfs(visited, graph, neighbour)
+        for neighbor in graph[node]:
+            dfs(graph, neighbor, visited)
 
-# Driver Code
-print("\nFollowing is the Depth-First Search")
-dfs(visited, graph, '5')
+# Initialize a set to keep track of visited nodes
+visited = set()
+
+# Call DFS starting from the 'A' node (or any other starting node)
+print("DFS Traversal:")
+dfs(graph, 'A', visited)
+#-----------------------BFS---------------------------
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    print()
+
+    print("BFS Traversal:")
+    while queue:
+        node = queue.popleft()
+        print(node, end=' ')
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+                visited.add(neighbor)
+
+# Call BFS starting from the 'A' node (or any other starting node)
+bfs(graph, 'A')
